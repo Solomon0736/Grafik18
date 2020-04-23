@@ -1,3 +1,5 @@
+import javafx.scene.shape.Circle;
+
 import java.awt.*;
 import java.awt.Graphics;
 import java.util.Random;
@@ -5,9 +7,9 @@ import java.util.Random;
 public class Ball {
     private int xDirection, yDirection;
     private int[] pixels;
-    private Rectangle boundingBox;
-    private int height = 10;
-    private int width = 10;
+    private Circle boundingBox;
+    private int height = 25;
+    private int width = 20;
 
     public Ball(int x, int y){
         pixels = new int[width*height];
@@ -24,7 +26,7 @@ public class Ball {
         for (int i = 0 ; i < pixels.length ; i++)
             pixels[i] = 0xFFFFFFFF;
 
-        boundingBox = new Rectangle(x, y, width, height);
+        boundingBox = new Circle(x, y, width);
 
         Random r = new Random();
         int rDir = r.nextInt(1);
@@ -64,7 +66,7 @@ public class Ball {
     }
 
     public void collision(Rectangle r){
-        if(boundingBox.intersects(r)) {
+        if(boundingBox.intersects(c)) {
             if (getXDirection() > 0 && Math.abs(r.x - (boundingBox.x + boundingBox.width)) <= getXDirection()) {
                 setXDirection(-1);
             } else if (getXDirection() < 0 && Math.abs(r.x + r.width - boundingBox.x) <= -getXDirection()) {
@@ -92,9 +94,9 @@ public class Ball {
         if (boundingBox.y >= 285) setYDirection(-1);
     }
 
-    public void update(Rectangle r) {
-        collision(r);
+    public void update(Circle c) {
+        collision(c);
         move();
-        collision(r);
+        collision(c);
     }
 }
